@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+matplotlib
+numpy
+onnxruntime
+requests
+skyfield
+torch
+torchvision
