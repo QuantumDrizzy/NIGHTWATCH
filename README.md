@@ -61,13 +61,19 @@ kernels.
 ## Status
 
 **Implemented:** CUDA CA-CFAR detection · synthetic ToF generator · MobileViT-XT
-classifier (train / export / validate) · Kalman tracking · TLE catalogue match ·
-SQLite store · FastAPI dashboard · acoustic LITHOS module.
+detector/regressor (train / export / validate) · Kalman tracking · TLE catalogue
+match · SQLite store · FastAPI dashboard · acoustic LITHOS module. The ONNX export
+is validated faithful to the PyTorch model (max diff ~1e-7 at batch=1) by the test
+suite (`pytest tests/ -q`).
 
 **In progress:** live-sensor capture integration · TensorRT INT8 engine wiring ·
 hardware slew-to-cue (Jetson + Arduino servo bridge). Benchmarks (throughput,
 classification accuracy) are not yet published — they will be measured and reported
 honestly rather than asserted here.
+
+**[KNOWN_LIMIT]** the ONNX runs at batch=1 (the real-time path, one detection cube
+at a time); the declared dynamic batch axis does not work past batch=1 because the
+exporter fixes the regression-head LSTM initial state — documented and tested.
 
 ## Build / run
 

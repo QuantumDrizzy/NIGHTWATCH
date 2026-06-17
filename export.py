@@ -35,7 +35,7 @@ def export_to_onnx():
         dummy_input, 
         onnx_path,
         export_params=True,
-        opset_version=14, # Opset 14 es estable para atención y transformers en TensorRT
+        opset_version=18, # opset 18 (current torch exporter floor); supported by modern TensorRT
         do_constant_folding=True,
         input_names=['input_cube'],
         output_names=['p_det', 'coords'],
