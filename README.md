@@ -98,6 +98,10 @@ provide it from your OpenCV/UE install (see `build.bat`).
 `C++17` · `CUDA` · `Python` · `OpenCV` · `PyTorch` · `ONNX` · `TensorRT` · `FastAPI` ·
 `Skyfield` · `SQLite`
 
+## License
+
+MIT — see [LICENSE](LICENSE).
+
 ---
 
 *Local-first IR situational awareness. Synthetic by default, real-sensor ready.*
