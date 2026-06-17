@@ -2,7 +2,8 @@ import sqlite3
 import datetime
 import os
 
-DB_FILE = "nightwatch.sqlite"
+# Configurable so tests and alternate deployments don't touch the live store.
+DB_FILE = os.environ.get("NIGHTWATCH_DB", "nightwatch.sqlite")
 
 def init_db():
     """Initializes the SQLite database and creates / migrates the table."""
