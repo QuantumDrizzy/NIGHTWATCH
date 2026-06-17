@@ -10,7 +10,7 @@ from trackformer import MobileViT_XT
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def validate():
-    os.chdir(r"C:\Users\Drizzy\Desktop\KINECT-NIR")
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     print("[NIGHTWATCH-CORE] Iniciando validacion PyTorch vs ONNX (Sanity Check)...")
 
     onnx_path = "NIGHTWATCH_MOBILEVIT_XT.onnx"

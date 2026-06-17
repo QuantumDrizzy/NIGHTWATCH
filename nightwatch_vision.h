@@ -17,7 +17,7 @@
 #define BLOB_GRID_ROWS     8
 #define BLOB_GRID_N        64
 
-// Default thresholds — override in main() for Kinect vs synthetic mode
+// Default thresholds — override in main() for live-sensor vs synthetic mode
 #define BLOB_THRESHOLD_DEFAULT  1.0f    // density matrix value
 #define BLOB_MIN_WEIGHT_DEFAULT 20.0f   // Σ(w·pixel) per cell
 
@@ -90,10 +90,10 @@ void launch_blob_detection(const float* density_matrix,
                            int         max_blobs);
 
 /*
- * Realistic Kinect v2 ToF frame generator — synth_kinect.cu
+ * Realistic time-of-flight (ToF) IR frame generator — synth_tof.cu
  *
  * Noise model:
- *   thermal floor : μ=327 ADU, σ=25 ADU  (Kinect v2 empirical)
+ *   thermal floor : μ=327 ADU, σ=25 ADU  (ToF sensor empirical)
  *   multipath     : sinusoidal ripple ±18 ADU
  *   shot noise    : σ = √(signal/16)   (photon counting ToF)
  *   saturation    : specular clipping above ~52 000 ADU

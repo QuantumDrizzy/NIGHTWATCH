@@ -13,23 +13,19 @@ if %errorlevel% neq 0 (
 set "UE_OPENCV_INC=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Source\ThirdParty\OpenCV\include"
 set "OPENCV_LIB=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Source\ThirdParty\OpenCV\lib\Win64\opencv_world455.lib"
 
-:: ── Kinect for Windows SDK 2.0 (optional) ────────────────────────────────────
-set "KINECT_EXTRA="
-if not "%KINECTSDK20_DIR%"=="" (
-    set KINECT_EXTRA=-I"%KINECTSDK20_DIR%inc" -DNIGHTWATCH_USE_KINECT "%KINECTSDK20_DIR%lib\x64\Kinect20.lib"
-    echo [OK] Kinect SDK: %KINECTSDK20_DIR%
-) else (
-    echo [WARN] KINECTSDK20_DIR no definida - solo modo sintetico
-)
+:: ── Live sensor capture (optional) ───────────────────────────────────────────
+:: Default build is synthetic (synth_tof.cu). To wire a real ToF/IR sensor,
+:: add its SDK include/lib here and define NIGHTWATCH_USE_SENSOR.
+set "SENSOR_EXTRA="
 
 echo [*] OpenCV lib: %OPENCV_LIB%
-echo [*] Compilando: main.cpp vision_kernel.cu synth_kinect.cu
+echo [*] Compilando: main.cpp vision_kernel.cu synth_tof.cu
 
 :: ── NVCC ──────────────────────────────────────────────────────────────────────
 nvcc -allow-unsupported-compiler -std=c++17 -o nightwatch_vision.exe ^
-     main.cpp vision_kernel.cu synth_kinect.cu trackformer_trt.cpp ^
+     main.cpp vision_kernel.cu synth_tof.cu trackformer_trt.cpp ^
      -I"%UE_OPENCV_INC%" ^
-     %KINECT_EXTRA% ^
+     %SENSOR_EXTRA% ^
      "%OPENCV_LIB%" ^
      -lcudart
 
@@ -43,7 +39,7 @@ if not exist opencv_world455.dll (
 
 echo.
 echo Uso: .\nightwatch_vision.exe --synthetic
-echo      .\nightwatch_vision.exe              (requiere Kinect v2)
+echo      .\nightwatch_vision.exe              (live sensor mode — wire your ToF/IR capture)
 echo.
 
 nightwatch_vision.exe %*

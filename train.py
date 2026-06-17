@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 from trackformer import MobileViT_XT
 
-os.chdir(r"C:\Users\Drizzy\Desktop\KINECT-NIR")
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 class NightwatchDataset(Dataset):
     def __init__(self, data_dir="RAW_DATA", num_frames=16, img_w=640, img_h=480, target_size=64):

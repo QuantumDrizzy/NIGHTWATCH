@@ -57,7 +57,7 @@ class SpaceOracle:
         print(f"[SPACE ORACLE] Catálogo montado: {len(self.satellites)} satelites activos listos para correlacion.")
 
     def find_match(self, az_deg, alt_deg, tolerance_deg=2.0):
-        # Nota: En el hardware real, el Kinect medira la posicion (x,y) en pixeles
+        # Nota: En el hardware real, el sensor medira la posicion (x,y) en pixeles
         # y la Matriz de Calibracion lo pasara a Azimut/Elevacion.
         # Por ahora simulamos la entrada en azimut y elevacion.
         

@@ -1,6 +1,25 @@
+# Telemetry / runtime
 telemetry.jsonl
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Build artifacts & vendored binaries (obtain via your toolchain, not the repo)
+*.exe
+*.dll
+*.obj
+*.lib
+*.exp
+*.engine
+
+# Local agent / IDE config
 CLAUDE.md
+.claude/
+.gemini/
+
+# Regenerable caches & debug captures (the RAG SQLite DB is kept on purpose)
+tle_cache.txt
+CAPTURES/

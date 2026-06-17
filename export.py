@@ -6,7 +6,7 @@ import torch
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from trackformer import MobileViT_XT
 
-os.chdir(r"C:\Users\Drizzy\Desktop\KINECT-NIR")
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def export_to_onnx():
     print("[NIGHTWATCH-TRACKFORMER] Iniciando puente de soberania PyTorch -> ONNX...")

@@ -4,7 +4,7 @@ import json
 import urllib.request
 import subprocess
 
-os.chdir(r"C:\Users\Drizzy\Desktop\KINECT-NIR")
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 API_KEY = os.environ.get("NVIDIA_API_KEY")
 
 def compile_and_run(num_clips=10):
@@ -43,7 +43,7 @@ def call_deepseek_validation(num_clips, frames_per_clip):
     url = "https://integrate.api.nvidia.com/v1/chat/completions"
     
     prompt = f"""
-    Eres el Director Tecnico de Arquitectura de IA de KINECT-NIR.
+    Eres el Director Tecnico de Arquitectura de IA de NIGHTWATCH.
     Hemos ejecutado con exito el script NIGHTWATCH-SYNTH-ORBIT.
     Se han generado {num_clips} clips.
     Cada clip contiene {frames_per_clip} frames (Cubo Diferencial 16-frame).

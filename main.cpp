@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
     }
 
     for (int frame = 0; frame < total_frames; frame++) {
-        // SIMULADOR TOF HIPERREALISTA (synth_kinect.cu)
+        // HYPERREALISTIC ToF SIMULATOR (synth_tof.cu)
         orbital_phase += 0.04f;
         float target_x = width/2 + 180.0f * cos(orbital_phase);
         float target_y = height/2 + 120.0f * sin(orbital_phase * 0.7f);

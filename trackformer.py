@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 # -----------------------------------------------------------------------------
 # KĦAOS-TRACKFORMER: MobileViT-XT (eXtended Temporal) Architecture
-# Basado en el blueprint de la División de Arquitectura de IA de KINECT-NIR
+# Basado en el blueprint de la División de Arquitectura de IA de NIGHTWATCH
 # -----------------------------------------------------------------------------
 
 class SqueezeExcitation(nn.Module):

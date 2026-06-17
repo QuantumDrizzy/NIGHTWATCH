@@ -2,7 +2,7 @@ import json
 import os
 import nightwatch_db
 
-telemetry_file = "C:/Users/Drizzy/Desktop/KINECT-NIR/telemetry.jsonl"
+telemetry_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "telemetry.jsonl")
 
 if os.path.exists(telemetry_file):
     print(f"Poblando BBDD desde {telemetry_file}...")
