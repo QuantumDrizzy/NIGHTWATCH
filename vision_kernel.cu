@@ -25,11 +25,10 @@ __global__ void process_vision_kernel(unsigned short* raw_ir, float* density_mat
                       - (float)raw_ir[idx - width] / 1024.0f;
         }
 
-        if (x == 0 && y == 0) {
-            v_out->dx = 0; v_out->dy = 0; v_out->energy = 0; v_out->sharpness = 0;
-        }
-        __syncthreads();
-
+        // NOTE: v_out is zeroed by the host (cudaMemset) before each launch.
+        // An in-kernel reset by thread (0,0) + __syncthreads() would NOT be
+        // safe — __syncthreads() only synchronizes within a block, so it would
+        // race with atomicAdds from other blocks.
         float diff = current_prob - prev_density_matrix[idx];
         if (diff > 0.5f) {
             atomicAdd(&(v_out->dx), (float)(x - width/2) * diff * 0.0001f);

@@ -9,9 +9,15 @@ if %errorlevel% neq 0 (
     call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" >nul 2>&1
 )
 
-:: ── OpenCV (Unreal Engine 5.7) ────────────────────────────────────────────────
-set "UE_OPENCV_INC=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Source\ThirdParty\OpenCV\include"
-set "OPENCV_LIB=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Source\ThirdParty\OpenCV\lib\Win64\opencv_world455.lib"
+:: ── OpenCV ────────────────────────────────────────────────────────────────────
+:: Override these by setting NW_OPENCV_INC / NW_OPENCV_LIB / NW_OPENCV_DLL in your
+:: environment (point them at any OpenCV install). The defaults below use the
+:: OpenCV that ships with Unreal Engine 5.7 — change or override if you don't have it.
+if not defined NW_OPENCV_INC set "NW_OPENCV_INC=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Source\ThirdParty\OpenCV\include"
+if not defined NW_OPENCV_LIB set "NW_OPENCV_LIB=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Source\ThirdParty\OpenCV\lib\Win64\opencv_world455.lib"
+if not defined NW_OPENCV_DLL set "NW_OPENCV_DLL=C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Binaries\ThirdParty\Win64\opencv_world455.dll"
+set "UE_OPENCV_INC=%NW_OPENCV_INC%"
+set "OPENCV_LIB=%NW_OPENCV_LIB%"
 
 :: ── Live sensor capture (optional) ───────────────────────────────────────────
 :: Default build is synthetic (synth_tof.cu). To wire a real ToF/IR sensor,
@@ -34,7 +40,7 @@ if %errorlevel% neq 0 goto :compile_error
 :: ── Compilacion exitosa ───────────────────────────────────────────────────────
 echo [OK] COMPILACION EXITOSA.
 if not exist opencv_world455.dll (
-    copy "C:\Program Files\Epic Games\UE_5.7\Engine\Plugins\Runtime\OpenCV\Binaries\ThirdParty\Win64\opencv_world455.dll" . >nul 2>&1
+    copy "%NW_OPENCV_DLL%" . >nul 2>&1
 )
 
 echo.

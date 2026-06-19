@@ -11,7 +11,9 @@
 
 extern "C" {
 
-// El Contrato Soberano: Semilla generada por la Red Neuronal
+// Tracklet seed: one detection produced per frame by the inference step
+// (the TensorRT network when compiled with NIGHTWATCH_USE_TENSORRT, otherwise
+// the classical CFAR-centroid fallback). Consumed by the Kalman gate in main.cpp.
 struct TrackletSeed {
     float x;            // Coordenada X sub-pixel detectada
     float y;            // Coordenada Y sub-pixel detectada

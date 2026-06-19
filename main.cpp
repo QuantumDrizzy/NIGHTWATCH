@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <cuda_runtime.h>
-#include <direct.h>
+#include <filesystem>   // portable directory creation (replaces Windows <direct.h>)
 
 // VelocityData struct removed. Now in nightwatch_vision.h
 extern "C" void launch_vision_kernel(unsigned short* raw_ir, float* density_matrix, float* prev_density_matrix, int width, int height, float gain, bool ifu_mode, float denoise_threshold, VelocityData* v_out);
@@ -31,7 +31,7 @@ void kalman_update(KalmanState& k, float mx, float my, float confidence = 1.0f) 
 int main(int argc, char** argv) {
     const int width = 640;
     const int height = 480;
-    _mkdir("RAW_DATA");
+    std::filesystem::create_directories("RAW_DATA");
 
     bool dataset_mode = false;
     bool live_simulate = false;
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
     TrackformerTRT trackformer;
     trackformer.initialize("NIGHTWATCH_MOBILEVIT_XT.engine");
 
-    std::cout << "[VANGUARDIA 4.1] I/O BINARIO + TOF NOISE MODEL ACTIVE" << std::endl;
+    std::cout << "[NIGHTWATCH] binary I/O + ToF noise-model pipeline active" << std::endl;
 
     int total_frames = dataset_mode ? (num_clips * 16) : (live_simulate ? 999999999 : 200);
     
@@ -97,10 +97,14 @@ int main(int argc, char** argv) {
         objects[0].radius_m = 0.02f;      // 2 centimetros de radio
         objects[0].active = 1;
 
-        // Lanzar el simulador hiperrealista de ruido ToF de Claude
+        // Generate the synthetic ToF/IR frame (noise model in synth_tof.cu)
         launch_synth_frame(d_raw_ir, width, height, objects, 1, frame);
 
-        // Procesar vision cuantica y tracking (Acumulacion Temporal)
+        // Reset the per-frame accumulators on the host, then run temporal
+        // accumulation + tracking. v_out MUST be zeroed here (not inside the
+        // kernel): __syncthreads() only syncs a block, so an in-kernel reset
+        // races with atomicAdds from other blocks.
+        cudaMemset(d_v_out, 0, sizeof(VelocityData));
         launch_vision_kernel(d_raw_ir, d_density, d_prev, width, height, 2.5f, false, 0.08f, d_v_out);
         cudaDeviceSynchronize();
 
@@ -130,7 +134,8 @@ int main(int argc, char** argv) {
         float dy = seed.y - pred_y;
         float mahalanobis_sq = (dx*dx + dy*dy) / (sat_kalman.p + 2.0f);
         
-        const float GAMMA_SQ = 9.21f; // chi-square 4 DOF, 0.99
+        // 2D position gate → chi-square 2-DOF; 0.99 quantile = 9.21.
+        const float GAMMA_SQ = 9.21f;
 
         if (mahalanobis_sq < GAMMA_SQ && seed.confidence > 0.3f) {
             // Semilla aceptada: Actualizar Kalman con el Tracklet de la Red
@@ -147,7 +152,7 @@ int main(int argc, char** argv) {
             int clip_idx = frame / 16;
             int frame_idx = frame % 16;
             std::string clip_dir = "RAW_DATA/clip_" + std::to_string(clip_idx);
-            _mkdir(clip_dir.c_str());
+            std::filesystem::create_directories(clip_dir);
 
             // Dump density matrix
             std::string raw_path = clip_dir + "/frame_" + std::to_string(frame_idx) + ".bin";

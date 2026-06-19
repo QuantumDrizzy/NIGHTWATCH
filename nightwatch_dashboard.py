@@ -153,7 +153,7 @@ class KineticMCO:
     All thresholds are empirical defaults — calibrate with logged field data.
     """
 
-    # Mahalanobis gate (chi-square 4-DOF, 0.99 quantile)
+    # Mahalanobis gate: 2D az/alt position → chi-square 2-DOF, 0.99 quantile = 9.21
     GAMMA_SQ            = 9.21
 
     # Aircraft kinematic window
@@ -885,8 +885,10 @@ async def websocket_endpoint(websocket: WebSocket):
                 # ── Servo slew-to-cue on Class X ──────────────────────────
                 if cls == "X" and serial_writer is not None:
                     try:
-                        cmd = json.dumps({"servo_az": round(az, 1),
-                                          "servo_alt": round(alt, 1)}) + "\n"
+                        # Match the firmware's parser: "$SLEW,az,alt\n"
+                        # (nightwatch_mega.ino::parseCommand). A JSON command
+                        # would be silently ignored by the Arduino.
+                        cmd = f"$SLEW,{az:.1f},{alt:.1f}\n"
                         serial_writer.write(cmd.encode())
                     except Exception:
                         pass

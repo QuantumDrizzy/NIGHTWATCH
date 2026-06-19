@@ -9,7 +9,7 @@ from trackformer import MobileViT_XT
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def export_to_onnx():
-    print("[NIGHTWATCH-TRACKFORMER] Iniciando puente de soberania PyTorch -> ONNX...")
+    print("[NIGHTWATCH-TRACKFORMER] Exporting PyTorch -> ONNX...")
     
     # 1. Instanciar la red
     model = MobileViT_XT()

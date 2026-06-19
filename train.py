@@ -42,7 +42,7 @@ class NightwatchDataset(Dataset):
             bin_file = os.path.join(clip_path, f"frame_{t}.bin")
             gt_file = os.path.join(clip_path, f"gt_{t}.txt")
             
-            # Leer matriz Husimi-Q cruda (640x480, float32)
+            # Read the raw IR density frame (640x480, float32)
             with open(bin_file, "rb") as f:
                 raw_data = np.fromfile(f, dtype=np.float32)
             

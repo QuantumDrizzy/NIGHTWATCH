@@ -3,8 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # -----------------------------------------------------------------------------
-# KĦAOS-TRACKFORMER: MobileViT-XT (eXtended Temporal) Architecture
-# Basado en el blueprint de la División de Arquitectura de IA de NIGHTWATCH
+# MobileViT-XT (eXtended Temporal) — spatiotemporal detector/regressor.
+# Input cube: (3, 16, 64, 64) = [density, temporal-diff, local-std] over 16 frames.
+# Outputs: p_det (detection confidence) and confidence-gated [x, y, vx, vy].
 # -----------------------------------------------------------------------------
 
 class SqueezeExcitation(nn.Module):
