@@ -7,7 +7,8 @@ Severity: **P0** = blocks honest use / correctness · **P1** = honesty/coherence
 > pass addressed most items below: **P0.1** (stub → real classical CFAR-centroid fallback, neural
 > gated on TensorRT), **P0.2** (`v_out` race fixed via host `cudaMemset`), **P0.3** (builds unified,
 > `main.cpp` made portable with `std::filesystem`, OpenCV path configurable), **P1.1/P1.3** (quantum
-> naming + theatrics + DeepSeek call removed), **P1.2** (LITHOS removed — in git history), **P1.4**
+> naming + theatrics + DeepSeek call removed), **P1.2** (LITHOS reviewed but **retained untouched** —
+> owner flagged it a key module), **P1.4**
 > (`RAW_DATA/` untracked), **P1.5** + part of **P2** (chi-square labels fixed; dashboard servo command
 > now matches the `$SLEW` firmware parser). **Deferred to hardware:** real C++ neural inference,
 > live capture, benchmarks, the TLE KD-tree, the 512×424/640×480 unification (pick at sensor time).

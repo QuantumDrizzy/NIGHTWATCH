@@ -18,9 +18,8 @@ clean DB, a genuinely good kinematic classifier in the dashboard) sitting next t
 - a grid-wide race on the `v_out` accumulators,
 - two build paths that disagreed and one (`Makefile`) that omitted sources, plus a Windows-only
   `<direct.h>` dependency and an OpenCV path hard-wired to an Unreal Engine install,
-- "quantum" vocabulary on classical DSP (`estimate_quantum_phase`, "Husimi-Q", "visión cuántica"),
-  an out-of-scope acoustic module (LITHOS), theatrical branding, and an external DeepSeek API call
-  used only to print a fake "military report,"
+- "quantum" vocabulary on classical DSP in the vision/training path ("Husimi-Q", "visión cuántica"),
+  theatrical branding, and an external DeepSeek API call used only to print a fake "military report,"
 - ~106 MB of regenerable synthetic data committed to git.
 
 ## Decision
@@ -35,9 +34,11 @@ hardware-dependent step. Specifically:
 - Fix the `v_out` race (host `cudaMemset` per frame; no in-kernel reset).
 - Unify the build (both paths compile the same 4 sources), make `main.cpp` portable
   (`std::filesystem` instead of `<direct.h>`), and make the OpenCV location configurable.
-- De-inflate: remove "quantum"/"Husimi-Q" naming, theatrics, and the external DeepSeek call; fix the
-  chi-square DOF labels; match the dashboard's servo command to the firmware's `$SLEW` parser.
-- Remove the out-of-scope LITHOS acoustic module (preserved in git history; can become its own repo).
+- De-inflate the vision/training path: remove "quantum"/"Husimi-Q" naming, theatrics, and the
+  external DeepSeek call; fix the chi-square DOF labels; match the dashboard's servo command to the
+  firmware's `$SLEW` parser. (LITHOS is left untouched — see below — so its own naming is unchanged.)
+- **Keep the LITHOS acoustic module (`acoustic/`) untouched** — the owner flagged it as a key part
+  of the project, so it is out of scope for this honesty pass (its naming is left as-is by request).
 - Stop tracking `RAW_DATA/` (regenerable); keep model weights, the RAG SQLite store, and the README figure.
 
 ## Options Considered

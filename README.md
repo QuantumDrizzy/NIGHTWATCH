@@ -48,6 +48,7 @@ Detections are persisted to a local store the system learns from over time.
 | `space_oracle.py` | TLE catalogue cross-match (Skyfield + Celestrak) |
 | `nightwatch_db.py` / `populate_db.py` | SQLite detection store (the system learns from what it sees) |
 | `nightwatch_dashboard.py` | FastAPI + WebSocket live dashboard + kinematic classifier (KGL) |
+| `acoustic/` | LITHOS — complementary acoustic-sensing module (C++) |
 | `nightwatch_mega/` | Arduino Mega firmware for servo slew-to-cue (`$SLEW,az,alt`) |
 
 ## Sensor input
@@ -63,7 +64,7 @@ kernels.
 **Implemented:** CUDA CA-CFAR detection · synthetic ToF generator · MobileViT-XT
 detector/regressor (train / export / validate) · classical CFAR-centroid fallback in
 the C++ pipeline · Kalman tracking · TLE catalogue match · SQLite store · FastAPI
-dashboard with a kinematic classifier (KGL). The ONNX export is validated faithful to
+dashboard with a kinematic classifier (KGL) · acoustic LITHOS module. The ONNX export is validated faithful to
 the PyTorch model (max diff ~1e-7 at batch=1) by the test suite (`pytest tests/ -q`,
 24 tests).
 

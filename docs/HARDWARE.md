@@ -106,3 +106,27 @@ matters only for the cheap servo/camera path.
 
 **Minimum to do something real with the sky: ~€350** (Orin Nano + a NoIR camera + lens). Everything
 above that is range, autonomy, and the GoTo/Astrum closed loop.
+
+---
+
+## What you'll actually SEE per tier (the honest expectation)
+
+The point of spending money is to see real overhead traffic, not a noise model. Honest about what
+each rig captures so the budget is justified before buying:
+
+| Spend | Rig | What you WILL see | What you WON'T see |
+|-------|-----|-------------------|--------------------|
+| €0 | dev + public footage | recorded ISS/Starlink passes, meteors, planes (offline, on the RTX) | anything live |
+| **~€350 (min)** | Orin Nano + NoIR/mono cam + fast lens | **bright satellites (ISS, Starlink trains), aircraft, meteors, the Moon, bright planets/stars — crossing live, detected + tracked + TLE-labelled** | faint debris, dim deep-sky, science-grade astrometry |
+| ~€600+ | + ASI mono astro cam | fainter satellites, sharper tracks, better low-light | very faint / sub-visual debris |
+| ~€1000+ | + GoTo mount (AZ-GTi) | the same, but the mount **slews to keep a track centred** + Astrum push-to | — |
+| ~€1500+ | + cooled / allsky cam | 24/7 unattended sky, faint objects, long captures | — |
+
+**The €350 rig is not "see nothing".** A sensitive NoIR/mono camera with a fast (f/1.4–2.0) lens
+genuinely catches ISS and Starlink passes, planes, and meteors on most clear nights — those are
+bright, fast, and exactly what CFAR + the tracker are built for. What it can't do is faint-debris
+astrometry or science-grade work; that's the cooled-cam tier. So a first ~€350 each is a real,
+showable result (live detections on the dashboard + a logged contact history), not a gamble.
+
+> **Reality check on the sky itself:** detections also depend on a dark-enough site and clear
+> weather — light pollution and clouds, not just the sensor, set the floor. The monte helps.
